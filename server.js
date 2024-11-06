@@ -2,8 +2,6 @@ const express = require('express')
 const { generateApiKey } = require('generate-api-key')
 const app = express()
 const PORT = 1337
-//const router = express.Router()
-//const serverless = require("serverless-http")
 
 require('dotenv').config()
 
@@ -11,8 +9,8 @@ require('dotenv').config()
 const STRIPE_SECRET_KEY = process.env.STRIPE_SK 
 const stripe = require('stripe')(STRIPE_SECRET_KEY)
 
-const DOMAIN = 'http://localhost:1337'
-//const DOMAIN = 'https://apibiz.netlify.app'
+//const DOMAIN = 'http://localhost:1337'
+const DOMAIN = 'https://apibiz.netlify.app'
 
 
 //middleware
@@ -72,6 +70,14 @@ app.post('/create-checkout-session/:product', async (req, res) => {
 })
 
 
-app.listen(PORT, () => console.log(`Server has started on port: ${PORT}`))
+// app.listen(PORT, () => console.log(`Server has started on port: ${PORT}`))
 
-//module.exports.handler = serverless(app)
+const serverless = require("serverless-http")
+const router = express.Router();
+
+router.get("/", (req, res) => {
+    res.send("App is running..");
+});
+
+app.use("/server", router);
+module.exports.handler = serverless(app);
