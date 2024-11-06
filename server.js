@@ -9,12 +9,12 @@ require('dotenv').config()
 const STRIPE_SECRET_KEY = process.env.STRIPE_SK 
 const stripe = require('stripe')(STRIPE_SECRET_KEY)
 
-//const DOMAIN = 'http://localhost:1337'
-const DOMAIN = 'https://apibiz.netlify.app'
+const DOMAIN = 'http://localhost:1337'
+//const DOMAIN = 'https://apibiz.netlify.app'
 
 
 //middleware
-app.use(express.static('public'))
+app.use(express.static("./"))
 
 
 //routes
@@ -59,8 +59,8 @@ app.post('/create-checkout-session/:product', async (req, res) => {
         },
         line_items: line_items,
         mode: mode,
-        success_url: `${DOMAIN}/success.html?api_key=${newAPIKey}`,
-        cancel_url: `${DOMAIN}/cancel.html`,
+        success_url: `${DOMAIN}/public/success.html?api_key=${newAPIKey}`,
+        cancel_url: `${DOMAIN}/public/cancel.html`,
     })
 
     //create firebase record
@@ -70,7 +70,7 @@ app.post('/create-checkout-session/:product', async (req, res) => {
 })
 
 
-// app.listen(PORT, () => console.log(`Server has started on port: ${PORT}`))
+app.listen(PORT, () => console.log(`Server has started on port: ${PORT}`))
 
 
 
