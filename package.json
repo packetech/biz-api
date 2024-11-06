@@ -17,7 +17,6 @@
     "express": "^4.21.1",
     "firebase-admin": "^12.7.0",
     "generate-api-key": "^1.0.2",
-    "netlify-cli": "^17.37.2",
     "netlify-lambda": "^0.4.0",
     "serverless-http": "^3.2.0",
     "stripe": "^17.3.0"
