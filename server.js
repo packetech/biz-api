@@ -72,8 +72,9 @@ app.post('/create-checkout-session/:product', async (req, res) => {
 
 // app.listen(PORT, () => console.log(`Server has started on port: ${PORT}`))
 
-const serverless = require("serverless-http")
-const router = express.Router();
 
-app.use("/.biz-api/functions/app", router);
-module.exports.handler = serverless(app);
+
+//const serverless = require("serverless-http")
+//const router = express.Router();
+//app.use("/.biz-api/functions/app", router);
+//module.exports.handler = serverless(app);
