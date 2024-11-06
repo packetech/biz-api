@@ -71,13 +71,3 @@ app.post('/create-checkout-session/:product', async (req, res) => {
 
 
 // app.listen(PORT, () => console.log(`Server has started on port: ${PORT}`))
-
-const serverless = require("serverless-http")
-const router = express.Router();
-
-router.get("/", (req, res) => {
-    res.send("App is running..");
-});
-
-app.use("/server", router);
-module.exports.handler = serverless(app);
