@@ -14,7 +14,7 @@ const DOMAIN = 'http://localhost:1337'
 
 
 //middleware
-app.use(express.static("./"))
+app.use(express.static("public"))
 
 
 //routes
@@ -59,8 +59,8 @@ app.post('/create-checkout-session/:product', async (req, res) => {
         },
         line_items: line_items,
         mode: mode,
-        success_url: `${DOMAIN}/public/success.html?api_key=${newAPIKey}`,
-        cancel_url: `${DOMAIN}/public/cancel.html`,
+        success_url: `${DOMAIN}/success.html?api_key=${newAPIKey}`,
+        cancel_url: `${DOMAIN}/cancel.html`,
     })
 
     //create firebase record
