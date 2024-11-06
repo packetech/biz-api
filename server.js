@@ -15,7 +15,7 @@ const DOMAIN = 'http://localhost:1337'
 
 
 //middleware
-app.use(express.static('public'))
+app.use(express.static('public/index.html'))
 
 
 //routes
