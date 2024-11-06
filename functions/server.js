@@ -2,7 +2,7 @@ const express = require('express')
 const { generateApiKey } = require('generate-api-key')
 const app = express()
 const PORT = 1337
-//const router = express.Router()
+const router = express.Router()
 const serverless = require("serverless-http")
 
 require('dotenv').config()
@@ -74,5 +74,9 @@ app.post('/create-checkout-session/:product', async (req, res) => {
 //app.listen(PORT, () => console.log(`Server has started on port: ${PORT}`))
 
 
-app.use(express.static('public'))
+router.get("/", (req, res) => {
+    res.send("App is running..");
+});
+
+app.use("/.biz-api/functions/server", router);
 module.exports.handler = serverless(app)
