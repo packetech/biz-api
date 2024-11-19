@@ -368,15 +368,13 @@
             </div>
             <div class="keyInput">
                 <input id="userKey" type="text" placeholder="API Key" />
-                <!-- <i class="fa-regular fa-circle codeCheck"></i>
-                <i class="fa-solid fa-circle codeCheck"></i> -->
+                <i class="fa-regular fa-circle codeCheck"></i>
+                <i class="fa-solid fa-circle codeCheck"></i>
             </div>
             <div id="check_status_btn" class="addKey">
                 <i class="fa-solid fa-check"></i> Check Status
             </div>
-            <p class="statusUpdate">
-
-            </p>
+            <p class="statusUpdate"></p>
             <div id="cancel_btn" class="addKey">
                 <i class="fa-solid fa-ban"></i>
                 Cancel Subscription
@@ -487,6 +485,38 @@
     </div>
 </body>
 <script>
+    const errMsg = document.querySelector('.errMsg')
+    const authMsg = document.querySelector('.authenticatedMsg')
+    const statusUpdate = document.querySelector('.statusUpdate')
+    const input = document.getElementById('userKey')
+    const check_status_btn = document.getElementById('check_status_btn')
+    async function getCurrStatus() {
+        const user_api_key = input.value
+        if (!user_api_key) {
+            return
+        }
+        try {
+            const res = await fetch('http://localhost:1337/check_status?api_key=' + user_api_key)
+            const { status } = await res.json()
+            console.log('STATUS IS: ', status)
+            if (status === "API Key does not exist") {
+                errMsg.innerText = status
+                errMsg.style.display = 'inline'
+                return
+            }
+            authMsg.style.display = 'inline'
+            if (!status) {
+                // API KEY AUTHENTICATED
+                console.log('STATUS IS NULL')
+                statusUpdate.innerText = 'No active payments'
+            } else {
+                statusUpdate.innerText = `Status is ${status}`
 
+            }
+        } catch (err) {
+            console.log(err.msg)
+        }
+    }
+    check_status_btn.addEventListener('click', getCurrStatus)
 </script>
 </html>
