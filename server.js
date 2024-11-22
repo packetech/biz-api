@@ -18,7 +18,7 @@ app.use(express.static("public"))
 
 //routes
 app.get('/api', async (req, res) => {
-    //recive API Key
+    //receive API Key
     const { api_key } = req.query
     if (!api_key) { return res.sendStatus(403) }
     res.status(200).send({ "message": "You can do it I believe in you! Don't give up yet!" })
@@ -47,6 +47,7 @@ app.post('/create-checkout-session/:product', async (req, res) => {
                 price: price_ID
             }
         ]
+        quantity_type = 'subscription'
     } else if (product === 'pre') {
         price_ID = 'price_1QHOY1LzY6sGa9nmcGQkI5mf'
         mode = 'payment'  
@@ -56,6 +57,7 @@ app.post('/create-checkout-session/:product', async (req, res) => {
                 quantity: 1
             }
         ]
+        quantity_type = 10
     } else {
         return res.sendStatus(403)
     }
@@ -85,7 +87,7 @@ app.post('/create-checkout-session/:product', async (req, res) => {
         APIkey: newAPIKey,
         payment_type: product,
         stripeCustomerId,
-        status: null
+        status: quantity_type // this can be subscription or quatity (e.g. 8)
     }
     
     const dbRes = await db.collection('api_keys').doc(newAPIKey).set(data, { merge: true })
@@ -94,6 +96,9 @@ app.post('/create-checkout-session/:product', async (req, res) => {
     res.redirect(303, session.url)
 })
 
+app.post('/stripe_webhook', (req, res) => {
+
+})
 
 app.listen(PORT, () => console.log(`Server has started on port: ${PORT}`))
 

@@ -272,11 +272,11 @@
             .statusUpdate {
                 margin-top: 4px;
             }
-    
+
             #cancel_btn {
                 display: none;
             }
-    
+
             #cancel_btn {
                 background: coral;
             }
@@ -364,7 +364,7 @@
             <p class="authenticatedMsg">API Key Authenticated</p>
             <div class="info">
                 <h3>Example API Key</h3>
-                <p>lsjjdlsll({od&^;ke^jlLjjfhIHlilk](@kd234)})</p>
+                <p>asdkjkl;!@#$%^123</p>
             </div>
             <div class="keyInput">
                 <input id="userKey" type="text" placeholder="API Key" />
@@ -374,7 +374,9 @@
             <div id="check_status_btn" class="addKey">
                 <i class="fa-solid fa-check"></i> Check Status
             </div>
-            <p class="statusUpdate"></p>
+            <p class="statusUpdate">
+
+            </p>
             <div id="cancel_btn" class="addKey">
                 <i class="fa-solid fa-ban"></i>
                 Cancel Subscription
@@ -490,6 +492,7 @@
     const statusUpdate = document.querySelector('.statusUpdate')
     const input = document.getElementById('userKey')
     const check_status_btn = document.getElementById('check_status_btn')
+    const cancel_btn = document.getElementById('cancel_btn')
     async function getCurrStatus() {
         const user_api_key = input.value
         if (!user_api_key) {
@@ -509,9 +512,21 @@
                 // API KEY AUTHENTICATED
                 console.log('STATUS IS NULL')
                 statusUpdate.innerText = 'No active payments'
+            } else if (status === 'subscription') {
+                statusUpdate.innerHTML = (
+                    `<div class="info">
+                    <h3>Subscription Atatus</h3>
+                    <p>Active</p>
+                    </div>`
+                )
+                cancel_btn.style.display = 'flex'
             } else {
-                statusUpdate.innerText = `Status is ${status}`
-
+                statusUpdate.innerHTML = (
+                    `<div class="info">
+                    <h3>API calls</h3>
+                    <p>${status}</p>
+                    </div>`
+                )
             }
         } catch (err) {
             console.log(err.msg)
