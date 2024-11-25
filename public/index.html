@@ -338,7 +338,7 @@
 <body>
     <div class="container">
         <div class="headerContainer">
-            <h1>My API</h1>
+            <h1>#ndibuilt API</h1>
             <a class="first" href="https://github.com/packetech" target="_blank">
                 <i class="fa-solid fa-book"></i>
                 Docs
@@ -511,7 +511,12 @@
             if (!status) {
                 // API KEY AUTHENTICATED
                 console.log('STATUS IS NULL')
-                statusUpdate.innerText = 'No active payments'
+                statusUpdate.innerHTML = (
+                    `<div class="info">
+                    <h3>Current Status</h3>
+                    <p>Inactive</p>
+                    </div>`
+                )
             } else if (status === 'subscription') {
                 statusUpdate.innerHTML = (
                     `<div class="info">
@@ -532,6 +537,27 @@
             console.log(err.msg)
         }
     }
+
+    async function cancelSub() {
+        const user_api_key = input.value
+        if (!user_api_key) {
+            return
+        }
+        try {
+            const res = await fetch('http://localhost:1337/delete?api_key=' + user_api_key)
+            statusUpdate.innerHTML = (
+                    `<div class="info">
+                        <h3>Current Status</h3>
+                        <p>Inactive</p>
+                    </div>`
+                )
+        } catch (err) {
+            console.log(err.msg)
+        }
+    }
+
+
+    cancel_btn.addEventListener('click', cancelSub)
     check_status_btn.addEventListener('click', getCurrStatus)
 </script>
 </html>

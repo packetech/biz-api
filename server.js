@@ -35,6 +35,30 @@ app.get('/check_status', async (req, res) => {
     }
 })
 
+app.get('/delete', async (req, res) => {
+    const { api_key } = req.query
+    const doc = await db.collection('api_keys').doc(api_key).get()
+    if (!doc.exists) {
+        res.status(400).send({'status': "API Key does not exist"})
+    } else {
+        const { stripeCustomerId } = doc.data()
+        try {
+            const customer = await stripe.customers.retrieve(
+                stripeCustomerId,
+                {expand: ['subscriptions']}
+            )
+            console.log(customer)
+            let subscriptionId = customer?.subscriptions?.data?.[0]?.id
+            stripe.subscriptions.cancel(subscriptionId)
+        
+        } catch (err) {
+            console.log(err.msg)
+            return res.sendStatus(500)
+        }
+        res.sendStatus(200)
+    }
+})
+
 app.post('/create-checkout-session/:product', async (req, res) => {
     const { product } = req.params
     let mode, price_ID, line_items
