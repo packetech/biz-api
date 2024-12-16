@@ -47,9 +47,8 @@ app.get('/delete', async (req, res) => {
                 stripeCustomerId,
                 {expand: ['subscriptions']}
             )
-            console.log(customer)
             let subscriptionId = customer?.subscriptions?.data?.[0]?.id
-            stripe.subscriptions.cancel(subscriptionId)
+            stripe.subscriptions.del(subscriptionId)
         
         } catch (err) {
             console.log(err.msg)
@@ -86,7 +85,12 @@ app.post('/create-checkout-session/:product', async (req, res) => {
         return res.sendStatus(403)
     }
 
-    const newAPIKey = generateApiKey()
+    const newAPIKey = generateApiKey({
+        method: 'string',
+        min: 20, 
+        max: 25,
+        pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-.*_~$%^@!'
+    })
     const customer = await stripe.customers.create({
         metadata: {
             APIkey: newAPIKey
